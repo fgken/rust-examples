@@ -12,9 +12,99 @@ fn main() {
 
     println!("{} increment-> {}", 1, increment(1));
 
-    diverges();
+    //diverges();
+    //println!("never reached here");
 
-    println!("never reached here");
+    compound_data_types();
+
+    structs();
+
+    tuple_struct();
+
+    ordering_func();
+}
+
+// Enum
+
+use std::cmp::Ordering;
+
+fn cmp(a: i32, b: i32) -> Ordering {
+    if a < b { Ordering::Less }
+    else if a > b { Ordering::Greater }
+    else { Ordering::Equal }
+}
+
+fn ordering_func(){
+    let x = 5;
+    let y = 10;
+
+    let ordering = cmp(x, y);
+
+    if ordering == Ordering::Less {
+        println!("less");
+    } else if ordering == Ordering::Greater {
+        println!("greater");
+    } else {
+        println!("equal");
+    }
+}
+
+enum Character {
+    Digit(i32),
+    Other,
+}
+
+fn enum_func() {
+    let ten = Character::Digit(10);
+    let five = Character::Digit(5);
+
+    // Error: `*` is not implemented for type `Character`
+    //let fifty = ten * five;
+
+    // Error: `<=` is not implemented for type `Character`
+    //let five_is_smaller = file <= ten;
+
+    // Error: `==` is not implemented for type `Character`
+    //let five_equals_ten = file == ten;
+}
+
+// Tuple Struct
+fn tuple_struct() {
+    // newtype
+    struct Inches(i32);
+
+    let length = Inches(10);
+
+    let Inches(integer_length) = length;
+    println!("length is {} inches", integer_length);
+}
+
+// PointInSpace not Point_In_Space or point_in_space
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn structs() {
+    let origin = Point { x: 0, y: 0 };
+
+    println!("The Origin is at ({}, {})",
+                origin.x, origin.y);
+}
+
+fn next_two(x: i32) -> (i32, i32) { (x + 1, x + 2) }
+
+fn compound_data_types(){
+    // Tuples
+    let x = (1, "hello");
+    let x: (i32, &str) = (1, "hello");
+
+    let mut x = (1, 2);
+    let y = (3, 4);
+    x = y;
+
+    let (x, y) = next_two(5);
+    println!("(x, y) = ({}, {})", x, y);
 }
 
 /// 'hello' is a function that prints a greeting that is
@@ -31,7 +121,7 @@ fn main() {
 /// hello(name); // prints "Hello, Steve!"
 /// ```
 fn hello(name: &str) {
-    println!("Hello, {}!", str);
+    println!("Hello, {}!", name);
 }
 
 fn diverges() -> ! {
