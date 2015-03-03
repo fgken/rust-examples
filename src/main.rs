@@ -22,6 +22,149 @@ fn main() {
     tuple_struct();
 
     ordering_func();
+
+    match_func();
+
+    loop_func();
+
+    string_func();
+
+    array_func();
+
+    vector_func();
+}
+
+// Vector
+fn vector_func() {
+    let mut v = vec![1, 2, 3];
+
+    println!("The length: {}", v.len());
+    
+    v.push(4);
+
+    println!("The length: {}", v.len());
+
+    let a = [0, 1, 2, 3, 4];
+    let middle = &a[3..3];
+
+    for e in middle.iter() {
+        println!("middle: {}", e);
+    }
+
+}
+
+// Array
+fn array_func() {
+    let a = [1, 2, 3];  // a: [i32; 3]
+    let mut m = [1, 2, 3];  // mut m: [i32; 3]
+
+    let a = [0; 20];    // a: [i32; 20]
+
+    println!("a has {} elements", a.len());
+    for e in a.iter() {
+        println!("Array: {}", e);
+    }
+
+    for i in 0..5 {
+        println!("a[{}] = {}", i, a[i]);
+    }
+}
+
+// String
+fn string_func() {
+    // All strings are guaranteed to be validly encoded UTF-8 sequences
+    // strings are not null-terminated and can contain null bytes
+
+    // This string binding is reference to this statically 
+    // allocated string
+    // string slice
+    // string slice have fixed size, and cannot be mutated
+    let string = "Hello there.";    // string: &str
+    println!("{}", string);
+
+    // String
+    // `String` is an in-memory string
+    let mut s = "Hello".to_string();    // mut s: String
+    println!("{}", s);
+
+    s.push_str(", world.");
+    println!("{}", s);
+
+    takes_slice(&s);
+    // takes_slice(s);  // Compile error
+}
+
+fn takes_slice(slice: &str) {
+    println!("Got: {}", slice);
+}
+
+// Looping
+
+fn loop_func() {
+    // for
+    let cnt = 5;
+
+    for x in 0..10 {
+        println!("for loop: x={}", x);
+    }
+
+    for x in 0..cnt {
+        println!("for loop2: x={}", x);
+    }
+
+    // while
+    let mut x = 5;
+    let mut done = false;
+
+    while !done {
+        x += x - 3;
+        println!("while: {}", x);
+        if x % 5 == 0 { done = true; }
+    }
+
+    x = 6;
+    loop {
+        x += x - 3;
+        println!("while: {}", x);
+        if x % 5 == 0 { break; }
+    }
+}
+
+// Match
+fn match_func() {
+    let x = 5;
+
+    match x {
+        1 => println!("one"),
+        2 => println!("two"),
+        3 => println!("three"),
+        4...10 => println!("4 to 10"),
+        _ => println!("something else"),
+    }
+
+    enum OptionalInt {
+        Value(i32),
+        Missing,
+    }
+
+    let x = OptionalInt::Value(5);
+    let y = OptionalInt::Missing;
+
+    match x {
+        OptionalInt::Value(n) => println!("x is {}", n),
+        OptionalInt::Missing => println!("x is missing"),
+    }
+
+    match y {
+        OptionalInt::Value(n) => println!("y is {}", n),
+        OptionalInt::Missing => println!("y is missing"),
+    }
+
+    println!("{}", match cmp(3, 5) {
+        Ordering::Less => "less",
+        Ordering::Greater => "greater",
+        Ordering::Equal => "equal",
+    });
 }
 
 // Enum
