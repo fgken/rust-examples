@@ -32,6 +32,21 @@ fn main() {
     array_func();
 
     vector_func();
+
+    stdin_func();
+}
+
+use std::old_io;
+
+fn stdin_func() {
+    println!("Type something!");
+
+    let input = old_io::stdin()
+                .read_line()
+                .ok()
+                .expect("Failed to read line");
+
+    println!("{}", input);
 }
 
 // Vector
